@@ -11,7 +11,7 @@ int main(int argc, char *argv[]){
         if(arg=="-h" and i+1<argc){
             host = argv[i+1];
             i++;
-        }else if(arg=="p" and i+1<argc){
+        }else if(arg=="-p" and i+1<argc){
             port = std::stoi(argv[i+1]);
             i++;
         }else break;
