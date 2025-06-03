@@ -1,5 +1,6 @@
 #include "../include/CLI.h"
 #include "../include/CommandHandler.h"
+#include "../include/ResponseParser.h"
 
 static std::string trim(const std::string &s){
     size_t st = s.find_first_not_of("\t\b\r\f\v");
@@ -8,7 +9,7 @@ static std::string trim(const std::string &s){
     return s.substr(st,end-st+1);
 }
 
-CLI::CLI(const std::string &host,int port):redisClient(host,port){
+CLI::CLI(const std::string &host,int port):redisClient(host,port), port{port},host{host}{
 
 }
 
@@ -17,9 +18,8 @@ void CLI::run(){
         return ;
     }
 
-    std::cout<<"Connected to redis at\n"<<redisClient.getSocketFd()<<"\n";
-    std::string host = "127.0.0.1";
-    int port = 6379;
+    std::cout<<"Connected to redis at "<<redisClient.getSocketFd()<<"\n";
+
     while(true){
         std::cout<<host<<":"<<port<<"> ";
         std::cout.flush();
@@ -48,5 +48,8 @@ void CLI::run(){
             break;
         }
         //parse response
+        std::string resp = ResponseParser::parseResponse(redisClient.getSocketFd());
+        std::cout<<resp<<"\n";
     }
+    redisClient.disconnect();
 }

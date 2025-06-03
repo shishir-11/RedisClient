@@ -11,7 +11,8 @@ public:
     void run();
 private:
     RedisClient redisClient;
-
+    int port;
+    std::string host;
 };
 
 #endif
