@@ -8,7 +8,7 @@
 class CommandHandler{
 public:
     static std::vector<std::string> splitArgs(const std::string &input);
-
+    static std::string buildRespCommand(const std::vector<std::string>&args);
 private:
 
 };

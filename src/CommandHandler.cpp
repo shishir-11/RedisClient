@@ -13,4 +13,14 @@ std::vector<std::string> CommandHandler::splitArgs(const std::string  &input){
         } 
         tokens.push_back(token);
     }
+    return tokens;
+}
+
+std::string CommandHandler::buildRespCommand(const std::vector<std::string> &args){
+    std::ostringstream oss;
+    oss<<"*"<<args.size()<<"\r\n";
+    for(const auto&arg:args){
+        oss<<"$"<<arg.size()<<"\r\n"<<arg<<"\r\n";
+    }
+    return oss.str();
 }

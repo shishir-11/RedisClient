@@ -1,4 +1,5 @@
 #include "../include/CLI.h"
+#include "../include/CommandHandler.h"
 
 static std::string trim(const std::string &s){
     size_t st = s.find_first_not_of("\t\b\r\f\v");
@@ -35,6 +36,17 @@ void CLI::run(){
             continue;
         }
         //tokenization
-        
+        std::vector<std::string> args = CommandHandler::splitArgs(line);
+        if(args.empty()) continue;
+
+        // for(const auto &arg: args){
+        //     std::cout<<arg<<"\n";
+        // }
+        std::string com = CommandHandler::buildRespCommand(args);
+        if(!redisClient.sendCommand(com)){
+            std::cerr<<"Error. Failed to send command\n";
+            break;
+        }
+        //parse response
     }
 }
